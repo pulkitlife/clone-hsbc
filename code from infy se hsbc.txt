@@ -1,0 +1,85 @@
+{
+                'id': '2917470282625884444',
+                'name': 'instance-1',
+                'description': '',
+                'tags': {
+                                'fingerprint': '42WmSpB8rSM='
+                },
+                'machineType': 'https://www.googleapis.com/compute/v1/projects/winter-handbook-301714/zones/us-central1-a/machineTypes/e2-medium',
+                'status': 'TERMINATED',
+                'zone': 'https://www.googleapis.com/compute/v1/projects/winter-handbook-301714/zones/us-central1-a',
+                'canIpForward': False,
+                'networkInterfaces': [{
+                                'network': 'https://www.googleapis.com/compute/v1/projects/winter-handbook-301714/global/networks/default',
+                                'subnetwork': 'https://www.googleapis.com/compute/v1/projects/winter-handbook-301714/regions/us-central1/subnetworks/default',
+                                'networkIP': '10.128.0.2',
+                                'name': 'nic0',
+                                'accessConfigs': [{
+                                                'type': 'ONE_TO_ONE_NAT',
+                                                'name': 'External NAT',
+                                                'networkTier': 'PREMIUM',
+                                                'kind': 'compute#accessConfig'
+                                }],
+                                'fingerprint': '5ArIGhq9JH4=',
+                                'kind': 'compute#networkInterface'
+                }],
+                'disks': [{
+                                'type': 'PERSISTENT',
+                                'mode': 'READ_WRITE',
+                                'source': 'https://www.googleapis.com/compute/v1/projects/winter-handbook-301714/zones/us-central1-a/disks/instance-1',
+                                'deviceName': 'instance-1',
+                                'index': 0,
+                                'boot': True,
+                                'autoDelete': True,
+                                'licenses': ['https://www.googleapis.com/compute/v1/projects/debian-cloud/global/licenses/debian-10-buster'],
+                                'interface': 'SCSI',
+                                'guestOsFeatures': [{
+                                                'type': 'VIRTIO_SCSI_MULTIQUEUE'
+                                }, {
+                                                'type': 'UEFI_COMPATIBLE'
+                                }],
+                                'diskSizeGb': '10',
+                                'kind': 'compute#attachedDisk'
+                }],
+                'metadata': {
+                                'fingerprint': 'HSuWq_Qlwrc=',
+                                'kind': 'compute#metadata'
+                },
+                'serviceAccounts': [{
+                                'email': '1066235914710-compute@developer.gserviceaccount.com',
+                                'scopes': ['https://www.googleapis.com/auth/devstorage.read_only', 'https://www.googleapis.com/auth/logging.write', 'https://www.googleapis.com/auth/monitoring.write', 'https://www.googleapis.com/auth/servicecontrol', 'https://www.googleapis.com/auth/service.management.readonly', 'https://www.googleapis.com/auth/trace.append']
+                }],
+                'selfLink': 'https://www.googleapis.com/compute/v1/projects/winter-handbook-301714/zones/us-central1-a/instances/instance-1',
+                'scheduling': {
+                                'onHostMaintenance': 'MIGRATE',
+                                'automaticRestart': True,
+                                'preemptible': False
+                },
+                'cpuPlatform': 'Unknown CPU Platform',
+                'labelFingerprint': '42WmSpB8rSM=',
+                'startRestricted': False,
+                'deletionProtection': False,
+                'reservationAffinity': {
+                                'consumeReservationType': 'ANY_RESERVATION'
+                },
+                'displayDevice': {
+                                'enableDisplay': False
+                },
+                'shieldedInstanceConfig': {
+                                'enableSecureBoot': False,
+                                'enableVtpm': True,
+                                'enableIntegrityMonitoring': True
+                },
+                'shieldedInstanceIntegrityPolicy': {
+                                'updateAutoLearnPolicy': True
+                },
+                'confidentialInstanceConfig': {
+                                'enableConfidentialCompute': False
+                },
+                'fingerprint': 'zExZ7__es8U=',
+                'lastStartTimestamp': '2021-01-14T20:54:21.389-08:00',
+                'lastStopTimestamp': '2021-01-14T21:37:10.117-08:00',
+                'kind': 'compute#instance'
+}
+
+
