@@ -1,0 +1,106 @@
+from gcloud import storage 
+from oauth2client.client import GoogleCredentials
+from googleapiclient.discovery import build
+from oauth2client.client import GoogleCredentials
+from googleapiclient.discovery import build
+from oauth2client.client import AccessTokenCredentials
+import os
+
+main_result=[]
+result={} 
+# Dict Validation 
+def dict_fun(input_dict,actual_data,result_data):
+    for i in input_dict:
+        if(type(input_dict[i])==dict): 
+            result_data[i]={}           
+            dict_fun(input_dict[i],actual_data[i],result_data[i])
+        if(type(input_dict[i])!=dict and type(input_dict[i])!=list):
+            if(input_dict[i]==actual_data[i]):
+                a="Key : "+ str(i)+" Pass , Actual value : "+ str(actual_data[i]) + " , Expected Value : "+str(input_dict[i])
+                result_data[i]=str(a)
+                #print("Key : "+ str(i)+" Pass , Actual value : "+ str(actual_data[i]) + " , Expected Value : "+str(input_dict[i]))
+                print("Key : "+ str(i)+" : PASS : Configuration Validation Successful !!! ")
+            else:
+                #result_data[i]="Key : "+ str(i)+" Fail , Actual value : "+ str(actual_data[i]) + " , Expected Value : "+str(input_dict[i])
+                print("Key : "+ str(i)+" : Fail : Configuration Validation failed !!! : Actual value : "+ str(actual_data[i]) + " , Expected Value : "+str(input_dict[i]))
+        if(type(input_dict[i])==list):
+            result_data[i]=[]
+            list_fun(input_dict[i],actual_data[i],result_data[i])
+
+
+# List Validation 
+def list_fun(input_list,actual_data,result_data):
+    for i in input_list:        
+        if(i in actual_data):
+            a="Expected Value "+ str(i) +" Status: Pass , Actual Value : "+str(i)
+            result_data.append(str(a))
+            #print("Key : "+ str(i)+" Pass , Actual value : "+ str(i) + " , Expected Value : "+str(i))
+            print("Key : "+ str(i)+" : PASS : Configuration Validation Successful !!! ")
+        else:
+            a="Expected Value "+ str(i) +" Status: Fail , Actual Value : "+ str(actual_data)
+            result_data.append(str(a))
+            #print("Key : "+ str(i)+" Fail , Actual value : "+ "Not Present" + " , Expected Value : "+str(i))
+            print("\n\n ***********Configuration Validation Faied Refer below block (One or more configurations may have incorrect Value)*********\n\n")
+            print("Key & Expected Value : "+ str(i))
+            print("\nKey & Actual Value : "+ str(actual_data))
+            print("\n Status : FAILED \n")
+            print("\n***********Configuration Validation failed block End*******************************************************")
+     
+
+# GCP Connectivity Validation
+try:
+    os.environ["GCLOUD_PROJECT"]="zeta-pivot-298701"
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="zeta-pivot-298701-880970024c6b.json"
+
+    compute = build('compute', 'v1')
+    actual_value = compute.instances().list(project="zeta-pivot-298701",zone="us-central1-a").execute()
+    # To List All instance under define project
+    # print(actual_value["items"])
+except :
+    print("GCP Connectivity Issue")
+
+file_data = open("multiins.json", "r")
+main_data=eval(file_data.read())
+for j in main_data["Instance"]:
+    input_data=j
+
+    try:   
+        for i in actual_value["items"]:  
+                
+            if(i['id']==input_data["id"]):
+                temp=i
+           
+    except:
+        print("Invalid Input File")
+
+    try:
+        new_actual_value=temp 
+        
+        for i in input_data:
+            # Data Type Dict
+            if(type(input_data[i])==dict):
+                result[i]={}
+                dict_fun(input_data[i],new_actual_value[i],result[i])
+            #  Data Type List
+            if(type(input_data[i])==list):
+                result[i]=[]
+                
+                list_fun(input_data[i],new_actual_value[i],result[i])
+            # Simple Data
+            else:
+                if(input_data[i]==new_actual_value[i]):
+                    result[i]="Status: Pass , Actual value : "+ str(new_actual_value[i]) + " , Expected Value : "+str(input_data[i])
+                    #print("Key : "+ str(i)+" , Status: Pass , Actual value : "+ str(new_actual_value[i]) + " , Expected Value : "+str(input_data[i]))
+                    print("Key : "+ str(i)+" : PASS : Configuration Validation Successful !!! ")
+                else:
+                    result[i]="Status: Fail , Actual value : "+ str(new_actual_value[i]) + " , Expected Value : "+str(input_data[i])
+                    #print("Key : "+ str(i)+" , Status: Fail , Actual value : "+ str(new_actual_value[i]) + " , Expected Value : "+str(input_data[i]))
+                    print("Key : "+ str(i)+" : Fail : Configuration Validation failed !!! : Actual value : "+ str(new_actual_value[i]) + " , Expected Value : "+str(input_data[i]))
+    except:
+        print("Parameter Violation")
+        main_result.append(result)
+        #result={}
+print("\n\n\n\n\n")
+print(main_result)
+print("\n\n\n\n\n")
+#  Key  Pass Actual & Expected
